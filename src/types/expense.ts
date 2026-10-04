@@ -28,3 +28,9 @@ export interface ExpenseInput {
   category: ExpenseCategory;
   date: string;
 }
+
+export interface ExpenseFilters {
+  category?: ExpenseCategory;
+  from?: string;
+  to?: string;
+}

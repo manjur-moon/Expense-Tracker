@@ -2,16 +2,21 @@
 
 import {
   FormEvent,
-  useEffect,
   useState,
 } from "react";
 
 import { EXPENSE_CATEGORIES } from "@/constants/expense";
+
 import {
   createExpense,
   updateExpense,
 } from "@/redux/features/expenses/expenseSlice";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "@/redux/hooks";
+
 import type {
   Expense,
   ExpenseCategory,
@@ -20,10 +25,12 @@ import type {
 type Props = {
   editingExpense: Expense | null;
   onCancelEdit: () => void;
+  onSaved: () => void;
 };
 
 function getToday() {
   const now = new Date();
+
   const local = new Date(
     now.getTime() - now.getTimezoneOffset() * 60000
   );
@@ -34,30 +41,37 @@ function getToday() {
 export default function ExpenseForm({
   editingExpense,
   onCancelEdit,
+  onSaved,
 }: Props) {
   const dispatch = useAppDispatch();
+
   const saving = useAppSelector(
     (state) => state.expenses.saving
   );
 
-  const [title, setTitle] = useState("");
-  const [amount, setAmount] = useState("");
+  const [title, setTitle] = useState(
+    editingExpense?.title || ""
+  );
+
+  const [amount, setAmount] = useState(
+    editingExpense
+      ? String(editingExpense.amount)
+      : ""
+  );
+
   const [category, setCategory] =
-    useState<ExpenseCategory | "">("");
-  const [date, setDate] = useState(getToday());
-  const [formError, setFormError] = useState("");
+    useState<ExpenseCategory | "">(
+      editingExpense?.category || ""
+    );
 
-  useEffect(() => {
-    if (!editingExpense) {
-      return;
-    }
+  const [date, setDate] = useState(
+    editingExpense
+      ? editingExpense.date.slice(0, 10)
+      : getToday()
+  );
 
-    setTitle(editingExpense.title);
-    setAmount(String(editingExpense.amount));
-    setCategory(editingExpense.category);
-    setDate(editingExpense.date.slice(0, 10));
-    setFormError("");
-  }, [editingExpense]);
+  const [formError, setFormError] =
+    useState("");
 
   function resetForm() {
     setTitle("");
@@ -105,10 +119,14 @@ export default function ExpenseForm({
 
         onCancelEdit();
       } else {
-        await dispatch(createExpense(data)).unwrap();
+        await dispatch(
+          createExpense(data)
+        ).unwrap();
+
+        resetForm();
       }
 
-      resetForm();
+      onSaved();
     } catch (error) {
       setFormError(
         error instanceof Error
@@ -119,7 +137,6 @@ export default function ExpenseForm({
   }
 
   function handleCancel() {
-    resetForm();
     onCancelEdit();
   }
 

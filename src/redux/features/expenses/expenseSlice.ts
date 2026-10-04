@@ -5,6 +5,7 @@ import {
 
 import type {
   Expense,
+  ExpenseFilters,
   ExpenseInput,
 } from "@/types/expense";
 
@@ -42,8 +43,26 @@ async function getResponse<T>(response: Response) {
 
 export const fetchExpenses = createAsyncThunk(
   "expenses/fetchExpenses",
-  async () => {
-    const response = await fetch("/api/expenses");
+  async (filters: ExpenseFilters) => {
+    const params = new URLSearchParams();
+
+    if (filters.category) {
+      params.set("category", filters.category);
+    }
+
+    if (filters.from) {
+      params.set("from", filters.from);
+    }
+
+    if (filters.to) {
+      params.set("to", filters.to);
+    }
+
+    const query = params.toString();
+
+    const response = await fetch(
+      `/api/expenses${query ? `?${query}` : ""}`
+    );
 
     const result =
       await getResponse<ApiResponse<Expense[]>>(response);
@@ -107,7 +126,10 @@ export const deleteExpense = createAsyncThunk(
       }
     );
 
-    await getResponse(response);
+    await getResponse<{
+      success: boolean;
+      message: string;
+    }>(response);
 
     return id;
   }
