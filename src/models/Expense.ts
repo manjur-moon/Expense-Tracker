@@ -1,7 +1,7 @@
 import mongoose, { Model, Schema } from "mongoose";
 
 import { EXPENSE_CATEGORIES } from "@/constants/expense";
-import { IExpense } from "@/types/Expense";
+import { IExpense } from "@/types/expense";
 
 const expenseSchema = new Schema<IExpense>(
   {

@@ -1,4 +1,3 @@
-import type { FilterQuery } from "mongoose";
 import { NextResponse } from "next/server";
 
 import { connectDB } from "@/lib/db";
@@ -10,6 +9,14 @@ import Expense from "@/models/Expense";
 import type { IExpense } from "@/types/expense";
 
 export const runtime = "nodejs";
+
+type ExpenseQueryFilter = {
+  category?: IExpense["category"];
+  date?: {
+    $gte?: Date;
+    $lte?: Date;
+  };
+};
 
 export async function GET(request: Request) {
   try {
@@ -37,7 +44,7 @@ export async function GET(request: Request) {
     const { category, from, to } =
       filterResult.data;
 
-    const filter: FilterQuery<IExpense> = {};
+    const filter: ExpenseQueryFilter = {};
 
     if (category) {
       filter.category = category;
@@ -81,7 +88,9 @@ export async function GET(request: Request) {
 
     await connectDB();
 
-    const expenses = await Expense.find(filter).sort({
+    const expenses = await Expense.find(
+      filter
+    ).sort({
       date: -1,
       createdAt: -1,
     });
@@ -91,7 +100,10 @@ export async function GET(request: Request) {
       data: expenses,
     });
   } catch (error) {
-    console.error("Failed to fetch expenses:", error);
+    console.error(
+      "Failed to fetch expenses:",
+      error
+    );
 
     return NextResponse.json(
       {
@@ -107,14 +119,16 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
 
-    const result = createExpenseSchema.safeParse(body);
+    const result =
+      createExpenseSchema.safeParse(body);
 
     if (!result.success) {
       return NextResponse.json(
         {
           success: false,
           message: "Invalid expense data",
-          errors: result.error.flatten().fieldErrors,
+          errors:
+            result.error.flatten().fieldErrors,
         },
         { status: 400 }
       );
@@ -124,19 +138,25 @@ export async function POST(request: Request) {
 
     const expense = await Expense.create({
       ...result.data,
-      date: new Date(`${result.data.date}T00:00:00.000Z`),
+      date: new Date(
+        `${result.data.date}T00:00:00.000Z`
+      ),
     });
 
     return NextResponse.json(
       {
         success: true,
-        message: "Expense created successfully",
+        message:
+          "Expense created successfully",
         data: expense,
       },
       { status: 201 }
     );
   } catch (error) {
-    console.error("Failed to create expense:", error);
+    console.error(
+      "Failed to create expense:",
+      error
+    );
 
     return NextResponse.json(
       {
