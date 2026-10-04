@@ -9,6 +9,7 @@ import SummaryCards from "@/components/dashboard/SummaryCards";
 import ExpenseFilters from "@/components/expenses/ExpenseFilters";
 import ExpenseForm from "@/components/expenses/ExpenseForm";
 import ExpenseList from "@/components/expenses/ExpenseList";
+import ExpenseChart from "@/components/dashboard/ExpenseChart";
 
 import {
   deleteExpense,
@@ -176,16 +177,16 @@ export default function ExpenseDashboard() {
 
         <section className="mt-6">
           <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-            <h2 className="text-lg font-semibold">Expense Overview</h2>
+            <div>
+              <h2 className="text-lg font-semibold">Expense Overview</h2>
 
-            <p className="mt-1 text-sm text-slate-500">
-              Category analytics will be added here.
-            </p>
-
-            <div className="mt-6 flex min-h-52 items-center justify-center rounded-xl border border-dashed border-slate-300 bg-slate-50">
-              <p className="text-sm text-slate-400">
-                Expense chart coming soon
+              <p className="mt-1 text-sm text-slate-500">
+                Spending breakdown by category.
               </p>
+            </div>
+
+            <div className="mt-4">
+              <ExpenseChart expenses={expenses} />
             </div>
           </div>
         </section>
