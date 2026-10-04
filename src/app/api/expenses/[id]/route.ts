@@ -152,3 +152,51 @@ export async function PATCH(
     );
   }
 }
+
+export async function DELETE(
+  _request: Request,
+  { params }: RouteContext
+) {
+  try {
+    const { id } = await params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Invalid expense ID",
+        },
+        { status: 400 }
+      );
+    }
+
+    await connectDB();
+
+    const expense = await Expense.findByIdAndDelete(id);
+
+    if (!expense) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Expense not found",
+        },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+      message: "Expense deleted successfully",
+    });
+  } catch (error) {
+    console.error("Failed to delete expense:", error);
+
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Something went wrong",
+      },
+      { status: 500 }
+    );
+  }
+}
