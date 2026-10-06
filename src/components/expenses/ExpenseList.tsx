@@ -1,5 +1,7 @@
 "use client";
 
+import { CATEGORY_COLORS } from "@/constants/expense";
+
 import type { Expense } from "@/types/expense";
 
 type Props = {
@@ -8,12 +10,19 @@ type Props = {
   onDelete: (expense: Expense) => void;
 };
 
-const badgeStyles: Record<string, string> = {
-  Food: "bg-orange-50 text-orange-700",
-  Transport: "bg-blue-50 text-blue-700",
-  Shopping: "bg-violet-50 text-violet-700",
-  Others: "bg-slate-100 text-slate-700",
-};
+function CategoryBadge({ category }: { category: string }) {
+  const color = CATEGORY_COLORS[category] ?? "#7f9188";
+
+  return (
+    <span className="inline-flex items-center gap-2 rounded-full bg-canvas px-3 py-1 text-xs font-semibold text-ink">
+      <span
+        className="h-2 w-2 rounded-full"
+        style={{ backgroundColor: color }}
+      />
+      {category}
+    </span>
+  );
+}
 
 function formatAmount(amount: number) {
   return `৳${amount.toLocaleString("en-BD", {
@@ -41,14 +50,14 @@ export default function ExpenseList({
 }: Props) {
   if (!expenses.length) {
     return (
-      <div className="flex min-h-56 items-center justify-center rounded-xl border border-dashed border-slate-300">
+      <div className="flex min-h-56 items-center justify-center rounded-xl border border-dashed border-line">
         <div className="text-center">
           <p className="font-medium">
-            No expenses yet
+            Nothing here yet
           </p>
 
-          <p className="mt-1 text-sm text-slate-500">
-            Add your first expense to get started.
+          <p className="mt-1 text-sm text-muted">
+            Add your first expense and it will show up here.
           </p>
         </div>
       </div>
@@ -61,7 +70,7 @@ export default function ExpenseList({
         {expenses.map((expense) => (
           <article
             key={expense._id}
-            className="rounded-xl border border-slate-200 p-4"
+            className="row-in rounded-2xl border border-line bg-canvas/40 p-4"
           >
             <div className="flex items-start justify-between gap-4">
               <div className="min-w-0">
@@ -69,30 +78,24 @@ export default function ExpenseList({
                   {expense.title}
                 </h3>
 
-                <p className="mt-1 text-sm text-slate-500">
+                <p className="mt-1 text-sm text-muted">
                   {formatDate(expense.date)}
                 </p>
               </div>
 
-              <p className="shrink-0 font-semibold">
+              <p className="num shrink-0 font-semibold">
                 {formatAmount(expense.amount)}
               </p>
             </div>
 
             <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
-              <span
-                className={`rounded-full px-3 py-1 text-xs font-medium ${
-                  badgeStyles[expense.category]
-                }`}
-              >
-                {expense.category}
-              </span>
+              <CategoryBadge category={expense.category} />
 
               <div className="flex gap-2">
                 <button
                   type="button"
                   onClick={() => onEdit(expense)}
-                  className="rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium transition hover:bg-slate-50"
+                  className="btn btn-ghost btn-sm"
                 >
                   Edit
                 </button>
@@ -100,7 +103,7 @@ export default function ExpenseList({
                 <button
                   type="button"
                   onClick={() => onDelete(expense)}
-                  className="rounded-lg border border-red-200 px-3 py-1.5 text-xs font-medium text-red-600 transition hover:bg-red-50"
+                  className="btn btn-danger btn-sm"
                 >
                   Delete
                 </button>
@@ -113,16 +116,16 @@ export default function ExpenseList({
       <div className="hidden overflow-x-auto md:block">
         <table className="w-full min-w-[700px] text-left">
           <thead>
-            <tr className="border-b border-slate-200 text-sm text-slate-500">
-              <th className="pb-3 pr-4 font-medium">
+            <tr className="border-b border-line text-muted">
+              <th className="pb-3 pr-4 text-sm font-semibold">
                 Expense
               </th>
 
-              <th className="pb-3 pr-4 font-medium">
+              <th className="pb-3 pr-4 text-sm font-semibold">
                 Category
               </th>
 
-              <th className="pb-3 pr-4 font-medium">
+              <th className="pb-3 pr-4 text-sm font-semibold">
                 Date
               </th>
 
@@ -140,27 +143,21 @@ export default function ExpenseList({
             {expenses.map((expense) => (
               <tr
                 key={expense._id}
-                className="border-b border-slate-100 last:border-0"
+                className="row-in border-b border-line/60 transition-colors last:border-0 hover:bg-brand-soft/40"
               >
                 <td className="py-4 pr-4 font-medium">
                   {expense.title}
                 </td>
 
                 <td className="py-4 pr-4">
-                  <span
-                    className={`rounded-full px-3 py-1 text-xs font-medium ${
-                      badgeStyles[expense.category]
-                    }`}
-                  >
-                    {expense.category}
-                  </span>
+                  <CategoryBadge category={expense.category} />
                 </td>
 
-                <td className="py-4 pr-4 text-sm text-slate-500">
+                <td className="py-4 pr-4 text-sm text-muted">
                   {formatDate(expense.date)}
                 </td>
 
-                <td className="py-4 pr-4 text-right font-semibold">
+                <td className="py-4 pr-4 text-right num font-semibold">
                   {formatAmount(expense.amount)}
                 </td>
 
@@ -171,7 +168,7 @@ export default function ExpenseList({
                       onClick={() =>
                         onEdit(expense)
                       }
-                      className="rounded-lg border border-slate-200 px-3 py-1.5 text-sm font-medium transition hover:bg-slate-50"
+                      className="btn btn-ghost btn-sm"
                     >
                       Edit
                     </button>
@@ -181,7 +178,7 @@ export default function ExpenseList({
                       onClick={() =>
                         onDelete(expense)
                       }
-                      className="rounded-lg border border-red-200 px-3 py-1.5 text-sm font-medium text-red-600 transition hover:bg-red-50"
+                      className="btn btn-danger btn-sm"
                     >
                       Delete
                     </button>
