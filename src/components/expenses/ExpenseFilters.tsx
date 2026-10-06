@@ -79,13 +79,13 @@ export default function ExpenseFilters({
   return (
     <form
       onSubmit={handleSubmit}
-      className="mt-5 border-t border-slate-200 pt-5"
+      className="mt-5 rounded-2xl bg-canvas/60 p-4"
     >
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         <div>
           <label
             htmlFor="filter-category"
-            className="mb-1.5 block text-xs font-medium text-slate-500"
+            className="label"
           >
             Category
           </label>
@@ -98,7 +98,7 @@ export default function ExpenseFilters({
                 event.target.value as ExpenseCategory | ""
               )
             }
-            className="w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
+            className="field"
           >
             <option value="">
               All Categories
@@ -118,7 +118,7 @@ export default function ExpenseFilters({
         <div>
           <label
             htmlFor="filter-from"
-            className="mb-1.5 block text-xs font-medium text-slate-500"
+            className="label"
           >
             From
           </label>
@@ -130,14 +130,14 @@ export default function ExpenseFilters({
             onChange={(event) =>
               setFrom(event.target.value)
             }
-            className="w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
+            className="field"
           />
         </div>
 
         <div>
           <label
             htmlFor="filter-to"
-            className="mb-1.5 block text-xs font-medium text-slate-500"
+            className="label"
           >
             To
           </label>
@@ -149,7 +149,7 @@ export default function ExpenseFilters({
             onChange={(event) =>
               setTo(event.target.value)
             }
-            className="w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
+            className="field"
           />
         </div>
 
@@ -157,7 +157,7 @@ export default function ExpenseFilters({
           <button
             type="submit"
             disabled={loading || invalidRange}
-            className="flex-1 rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-50"
+            className="btn btn-primary flex-1"
           >
             {loading ? "Applying..." : "Apply"}
           </button>
@@ -166,7 +166,7 @@ export default function ExpenseFilters({
             type="button"
             onClick={handleReset}
             disabled={loading}
-            className="flex-1 rounded-xl border border-slate-300 px-4 py-2.5 text-sm font-semibold transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+            className="btn btn-ghost flex-1"
           >
             Reset
           </button>
@@ -174,7 +174,7 @@ export default function ExpenseFilters({
       </div>
 
       {invalidRange && (
-        <p className="mt-2 text-sm text-red-600">
+        <p className="mt-2 text-sm text-danger">
           From date cannot be after to date.
         </p>
       )}

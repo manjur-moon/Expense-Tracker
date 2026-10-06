@@ -143,16 +143,16 @@ export default function ExpenseForm({
   return (
     <div
       id="expense-form"
-      className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6"
+      className="card p-5 sm:p-7"
     >
       <div className="mb-5">
-        <h2 className="text-lg font-semibold">
+        <h2 className="font-display text-xl font-semibold tracking-tight">
           {editingExpense
             ? "Edit Expense"
             : "Add Expense"}
         </h2>
 
-        <p className="mt-1 text-sm text-slate-500">
+        <p className="mt-1 text-sm text-muted">
           {editingExpense
             ? "Update the selected expense."
             : "Add a new expense to your records."}
@@ -166,7 +166,7 @@ export default function ExpenseForm({
         <div>
           <label
             htmlFor="title"
-            className="mb-1.5 block text-sm font-medium"
+            className="label"
           >
             Title
           </label>
@@ -181,14 +181,14 @@ export default function ExpenseForm({
             placeholder="e.g. Lunch"
             maxLength={100}
             required
-            className="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
+            className="field"
           />
         </div>
 
         <div>
           <label
             htmlFor="amount"
-            className="mb-1.5 block text-sm font-medium"
+            className="label"
           >
             Amount
           </label>
@@ -204,14 +204,14 @@ export default function ExpenseForm({
             min="0.01"
             step="0.01"
             required
-            className="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
+            className="field"
           />
         </div>
 
         <div>
           <label
             htmlFor="category"
-            className="mb-1.5 block text-sm font-medium"
+            className="label"
           >
             Category
           </label>
@@ -225,7 +225,7 @@ export default function ExpenseForm({
               )
             }
             required
-            className="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
+            className="field"
           >
             <option value="">
               Select category
@@ -245,7 +245,7 @@ export default function ExpenseForm({
         <div>
           <label
             htmlFor="date"
-            className="mb-1.5 block text-sm font-medium"
+            className="label"
           >
             Date
           </label>
@@ -258,12 +258,12 @@ export default function ExpenseForm({
               setDate(event.target.value)
             }
             required
-            className="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
+            className="field"
           />
         </div>
 
         {formError && (
-          <p className="text-sm text-red-600">
+          <p className="text-sm text-danger">
             {formError}
           </p>
         )}
@@ -271,7 +271,7 @@ export default function ExpenseForm({
         <button
           type="submit"
           disabled={saving}
-          className="w-full rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
+          className="btn btn-primary w-full"
         >
           {saving
             ? "Saving..."
@@ -285,7 +285,7 @@ export default function ExpenseForm({
             type="button"
             onClick={handleCancel}
             disabled={saving}
-            className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm font-semibold transition hover:bg-slate-50"
+            className="btn btn-ghost w-full"
           >
             Cancel Edit
           </button>
