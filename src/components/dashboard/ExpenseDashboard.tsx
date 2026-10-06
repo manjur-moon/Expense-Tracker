@@ -319,11 +319,13 @@ export default function ExpenseDashboard() {
                     </div>
                   </div>
                 ) : (
-                  <ExpenseList
-                    expenses={expenses}
-                    onEdit={handleEdit}
-                    onDelete={handleDelete}
-                  />
+                  <div className="scroll-area max-h-[34rem] overflow-auto pr-1">
+                    <ExpenseList
+                      expenses={expenses}
+                      onEdit={handleEdit}
+                      onDelete={handleDelete}
+                    />
+                  </div>
                 )}
               </div>
             </div>

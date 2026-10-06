@@ -188,3 +188,16 @@ img, svg { max-width: 100%; }
     scroll-behavior: auto !important;
   }
 }
+
+/* Slim, theme-aware scrollbar for the expense list */
+.scroll-area {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+}
+.scroll-area::-webkit-scrollbar { width: 8px; height: 8px; }
+.scroll-area::-webkit-scrollbar-track { background: transparent; }
+.scroll-area::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 999px;
+}
+.scroll-area::-webkit-scrollbar-thumb:hover { background: var(--faint); }

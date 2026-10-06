@@ -113,27 +113,27 @@ export default function ExpenseList({
         ))}
       </div>
 
-      <div className="hidden overflow-x-auto md:block">
+      <div className="hidden md:block">
         <table className="w-full min-w-[700px] text-left">
           <thead>
-            <tr className="border-b border-line text-muted">
-              <th className="pb-3 pr-4 text-sm font-semibold">
+            <tr className="text-muted">
+              <th className="sticky top-0 z-10 border-b border-line bg-surface pb-3 pr-4 text-sm font-semibold">
                 Expense
               </th>
 
-              <th className="pb-3 pr-4 text-sm font-semibold">
+              <th className="sticky top-0 z-10 border-b border-line bg-surface pb-3 pr-4 text-sm font-semibold">
                 Category
               </th>
 
-              <th className="pb-3 pr-4 text-sm font-semibold">
+              <th className="sticky top-0 z-10 border-b border-line bg-surface pb-3 pr-4 text-sm font-semibold">
                 Date
               </th>
 
-              <th className="pb-3 pr-4 text-right font-medium">
+              <th className="sticky top-0 z-10 border-b border-line bg-surface pb-3 pr-4 text-right text-sm font-semibold">
                 Amount
               </th>
 
-              <th className="pb-3 text-right font-medium">
+              <th className="sticky top-0 z-10 border-b border-line bg-surface pb-3 text-right text-sm font-semibold">
                 Actions
               </th>
             </tr>
